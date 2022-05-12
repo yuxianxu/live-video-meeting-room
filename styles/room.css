@@ -177,6 +177,7 @@
 #stream__box{
   background-color: #3f434a;
   height: 60vh;
+  display: none;
 }
 
 #streams__container{
@@ -199,6 +200,15 @@
   overflow: hidden;
   height: 300px;
   width: 300px;
+}
+
+.video-player{
+  height: 100%;
+  width: 100%;
+}
+
+.video-player video{
+  border-radius: 30%;
 }
 
 
