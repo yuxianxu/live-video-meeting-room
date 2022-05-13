@@ -1,6 +1,6 @@
 // import APP_ID from './APP_ID.js';
 
-
+const APP_ID = 'Apply an ID from Agora';
 
 let uid = sessionStorage.getItem('uid');
 if (!uid) {
