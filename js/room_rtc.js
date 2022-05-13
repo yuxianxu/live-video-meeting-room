@@ -240,7 +240,7 @@ let toggleScreen = async (e) => {
 
 let leaveStream = async (e) => {
   e.preventDefault();
-  document.getElementById('leave-btn').style.display = 'block';
+  document.getElementById('join-btn').style.display = 'block';
   document.getElementsByClassName('stream__actions')[0].style.display = 'none';
 
   for (let i = 0; localTracks.length > i; i++) {
