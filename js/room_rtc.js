@@ -18,6 +18,11 @@ if (!roomId) {
   roomId = 'main';
 }
 
+let displayName = sessionStorage.getItem('display_name');
+if (!displayName) {
+  window.location = 'lobby.html';
+}
+
 let localTracks = [];
 let remoteUsers = {};
 
@@ -78,7 +83,6 @@ let switchToCamera = async () => {
 
   localTracks[1].play(`user-${uid}`);
   await client.publish([localTracks[1]]);
-
 };
 
 let handleUserPublished = async (user, mediaType) => {
@@ -202,7 +206,7 @@ let toggleScreen = async (e) => {
     document.getElementById(`user-container-${uid}`).remove();
     await client.unpublish([localScreenTracks]);
 
-    switchToCamera()
+    switchToCamera();
   }
 };
 
