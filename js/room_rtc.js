@@ -9,6 +9,8 @@ if (!uid) {
 let token = null;
 
 let client;
+let rtmClient;
+let channel;
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -18,6 +20,11 @@ if (!roomId) {
   roomId = 'main';
 }
 
+let displayName = sessionStorage.getItem('display_name');
+if (!displayName) {
+  window.location = 'lobby.html';
+}
+
 let localTracks = [];
 let remoteUsers = {};
 
@@ -25,6 +32,14 @@ let localScreenTracks;
 let sharingScreen = false;
 
 let joinRoomInit = async () => {
+  rtmClient = await AgoraRTM.createInstance(APP_ID);
+  await rtmClient.login({ uid, token });
+
+  channel = await rtmClient.createChannel(roomId);
+  await channel.join();
+
+  channel.on('MemberJoined', handleMemberJoined);
+
   client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
   await client.join(APP_ID, roomId, token, uid);
 
@@ -78,7 +93,6 @@ let switchToCamera = async () => {
 
   localTracks[1].play(`user-${uid}`);
   await client.publish([localTracks[1]]);
-
 };
 
 let handleUserPublished = async (user, mediaType) => {
@@ -202,7 +216,7 @@ let toggleScreen = async (e) => {
     document.getElementById(`user-container-${uid}`).remove();
     await client.unpublish([localScreenTracks]);
 
-    switchToCamera()
+    switchToCamera();
   }
 };
 
